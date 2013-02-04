@@ -26,6 +26,7 @@
       , "superagent": "*"
       , "engine.io-client": "0.4.1"
       , "s": "*"
+      , "mocha-cloud": "*"
     }
   , "scripts" : { "test" : "make test" }
   , "repository": {
