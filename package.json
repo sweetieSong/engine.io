@@ -26,6 +26,7 @@
       , "superagent": "*"
       , "engine.io-client": "git://github.com/LearnBoost/engine.io-client#68780141ef"
       , "s": "*"
+      , "mocha-cloud": "*"
     }
   , "scripts" : { "test" : "make test" }
   , "repository": {
