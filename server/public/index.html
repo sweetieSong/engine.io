@@ -1,0 +1,16 @@
+<html>
+<head>
+  <script type="text/javascript" src="/mustard/socket.io.js"></script>
+  <script type="text/javascript">
+  var socket = io.connect('http://firefly01.cs.cornell.edu:8080');
+  socket.on('connect', function (data) {
+    console.log(data);
+    socket.emit('join', "qiming is a boss!");
+  });
+  </script>
+</head>
+
+<body>
+  
+</body>
+</html>

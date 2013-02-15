@@ -2,6 +2,7 @@
 TESTS = test/*.js
 BENCHMARKS = $(shell find bench -type f ! -name 'runner.js')
 REPORTER = dot
+client = $(shell lt --port 8080 | head -n 1 | cut -d ' ' -f 4 &)
 
 test:
 	@./node_modules/.bin/mocha \
@@ -11,6 +12,12 @@ test:
 		--bail \
 		--globals ___eio,document \
 		$(TESTS)
+
+acceptance:
+	node server/server.js &
+	make -C client lt &
+	node cloud.js ${client}
+	killall -9 node
 
 test-cov: lib-cov
 	EIO_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
