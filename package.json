@@ -19,6 +19,8 @@
       , "ws": "0.4.25"
       , "engine.io-parser": "0.1.1"
       , "base64id": "0.1.0"
+      , "localtunnel": "0.0.4"
+      , "express": "3.1.0"
     }
   , "devDependencies": {
         "mocha": "*"

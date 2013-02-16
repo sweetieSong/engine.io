@@ -1,0 +1,9 @@
+{
+  "name": "mustard",
+  "version": "0.1.0",
+  "dependencies": {
+    "engine.io": "0.2.1",
+    "express": "2.5.2",
+    "engine.io-client":"*"
+  }
+}
