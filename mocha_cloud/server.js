@@ -17,7 +17,6 @@ console.log("Server started on port " + port);
 // separate handling of engine.io commands and http commands
 var httpRequestHandler = function (request, response) {
 	var uri = request.url.substr(1).split('/');
-	console.log(uri);
 
 	if (uri[0] !== 'engine.io' || uri[0] == '') {
 

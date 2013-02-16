@@ -44,6 +44,9 @@ cloud.on('start', function (browser) {
 
 cloud.on('end', function (browser, res) {
   console.log('  end : %s %s : %d failures', browser.browserName, browser.version, res.failures);
+
+  console.log(res);
+
 });
 
 // output complete messages
