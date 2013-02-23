@@ -40,21 +40,30 @@ global.listen = function (opts, fn) {
   return e;
 };
 
-global.start_http = function(){
+global.start_http = function(engine){
+	var fs = require('fs');
 	var http = require('http').createServer(function handler (req, res) {
+		var uri = req.url.substr(1).split('/');
 
-	  var fs = require('fs');
-	  console.log(__dirname + "/client_test" + req.url);
-	  fs.readFile(__dirname + "/client_test" + req.url,
-		  function (err, data) {
-		    if (err) {
-		      res.writeHead(500);
-		      return res.end('Error loading data');
-		    }
+		console.log(req.url);
+		console.log(uri);
 
-	    res.writeHead(200);
-	    res.end(data);
-	  });
+	  if (uri[0] == 'engine.io'){
+	  	console.log("triggered engine.io");
+	  	engine.handleRequest(req, res);
+	  } else {
+		  console.log(__dirname + "/.." + req.url);
+		  fs.readFile(__dirname + "/.." + req.url,
+			  function (err, data) {
+			    if (err) {
+			      res.writeHead(500);
+			      return res.end('Error loading data');
+			    }
+
+		    res.writeHead(200);
+		    res.end(data);
+		  });
+		}
 	}).listen(8080)
 
 	return http

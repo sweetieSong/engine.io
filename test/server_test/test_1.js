@@ -1,45 +1,40 @@
 describe('engine.io', function(){
 	this.timeout(90000);
 
-	var http = start_http();
-	var lt = start_lt();
 	it('should pass test 1', function(done){
 	
-	// when your are assigned a url
-		lt.on('url', function(url) {
+		var engine = listen(function (port) {
 
-			console.log(url);
-			
-			/**
-			var cloud = start_cloud(url);
+			var http = start_http(engine);
+			var lt = start_lt();
 
-	  	cloud.start(function(){
-	  		console.log("done");
-	  		done();
-	  	})
+			lt.on('url', function(url) {
+				url = url + "/test/client_test/test_1.html";
 
-	    var engine = listen(function (port) {
-	    	
-	    	engine.on('connection', function(socket){
-	      	socket.on('message', function(msg){
+				console.log(url);
+				var cloud = start_cloud(url);
 
-	      		switch (msg.cmd){
-	      			case "fin":
-	      				expect(msg.result).to.equal('passed');
-	      				break;
-	      			default:
-	      				socket.send(msg);
-	      		}
+		  	cloud.start(function(){
+		  		console.log("done");
+		  		http.close();
+		  		done();
+		  	})
+		  });
 
-	      	});
-	      });
-	    });
-			*/
-			
-	  });
-	});
+    	engine.on('connection', function(socket){
+      	socket.on('message', function(msg){
+      		var json = JSON.parse(msg);
+      		switch (json['cmd']){
+      			case "fin":
+      				expect(json['result']).to.equal('passed');
+      				done();
+      				break;
+      			default:
+      				socket.send(msg);
+      		}
+      	})
+      })
+    })
+	})
 
-
-	http.close();
-
-});
+})
