@@ -18,7 +18,7 @@ test2:
 		--reporter $(REPORTER) \
 		--slow 500ms \
 		--bail \
-		tmp/*.js ${tid} ${url}
+		test/cloud.js ${tid} ${url}
 	read -p "All tests are done, press [enter] to kill all node instances"
 	killall -9 node
 		
