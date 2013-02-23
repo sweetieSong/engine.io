@@ -42,18 +42,16 @@ global.listen = function (opts, fn) {
 
 global.start_http = function(engine){
 	var fs = require('fs');
-	var http = require('http').createServer(function handler (req, res) {
+	var http = require('http').createServer();
+	http.listen(8080);
+
+	http.on('request', function (req, res) {
 		var uri = req.url.substr(1).split('/');
 
-		console.log(req.url);
-		console.log(uri);
-
 	  if (uri[0] == 'engine.io'){
-	  	console.log("triggered engine.io");
 	  	engine.handleRequest(req, res);
 	  } else {
-		  console.log(__dirname + "/.." + req.url);
-		  fs.readFile(__dirname + "/.." + req.url,
+		  fs.readFile(__dirname + "/client_test" + req.url,
 			  function (err, data) {
 			    if (err) {
 			      res.writeHead(500);
@@ -64,7 +62,7 @@ global.start_http = function(engine){
 		    res.end(data);
 		  });
 		}
-	}).listen(8080)
+	});
 
 	return http
 }
@@ -72,7 +70,7 @@ global.start_http = function(engine){
 global.start_cloud = function(client_url){
 	var Cloud = require('mocha-cloud');
 	var cloud = new Cloud('mustard', 'ss2249', 'eea4a2e4-a59d-4ca4-b34e-c65702418b34');
-	cloud.browser('firefox', '18', 'Windows 2008');
+	cloud.browser('chrome', '', 'Windows 2008');
 	cloud.url(client_url);
 
 	cloud.on('init', function (browser) {

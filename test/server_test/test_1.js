@@ -9,15 +9,16 @@ describe('engine.io', function(){
 			var lt = start_lt();
 
 			lt.on('url', function(url) {
-				url = url + "/test/client_test/test_1.html";
+				url = url + "/test_1.html";
 
 				console.log(url);
 				var cloud = start_cloud(url);
 
 		  	cloud.start(function(){
-		  		console.log("done");
 		  		http.close();
-		  		done();
+
+		  		setTimeout(done, 3000);
+
 		  	})
 		  });
 
@@ -27,7 +28,6 @@ describe('engine.io', function(){
       		switch (json['cmd']){
       			case "fin":
       				expect(json['result']).to.equal('passed');
-      				done();
       				break;
       			default:
       				socket.send(msg);
