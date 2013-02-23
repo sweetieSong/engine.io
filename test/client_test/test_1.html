@@ -1,9 +1,11 @@
-<script src="/node_modules/engine.io-client/engine.io.js"></script>
+<script src="http://redsky.cs.cornell.edu/engine.io.js"></script>
 <script>
-  var	socket = new eio.Socket({ host: document.location.hostname, port: 8080 });
-	socket.onopen = function(){
-		console.log('sending');
-		socket.send(JSON.stringify({'cmd': 'fin', 'result': 'passed'}));
-		console.log("sent");
+	window.onload = function(){
+	  var	socket = new eio.Socket({ host: document.location.hostname });
+		socket.onopen = function(){
+			console.log('sending');
+			socket.send(JSON.stringify({'cmd': 'fin', 'result': 'passed'}));
+			window.mochaResults = "done";
+		}
 	}
 </script>
