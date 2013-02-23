@@ -12,6 +12,7 @@ test:
 		--bail \
 		--globals ___eio,document \
 		$(TESTS)
+
 test2:
 	@./node_modules/.bin/mocha \
 		--require test/common \
