@@ -14,7 +14,6 @@ test:
 
 test2:
 	@node test/cloud.js ${tid} ${url}
-
 	read -p "All tests are done, press [enter] to kill all node instances"
 	killall -9 node
 		
