@@ -15,10 +15,11 @@ var test_id = arguments[0];
 var test_url = arguments[1];
 
 // start node server
-mocha.addFile('./test/server_test/test_1.js');
-mocha.run(function(){
-	console.log("done");
-})
+mocha.addFile('./test/server_test/test_' + test_id + '.js');
+mocha.run(function(failure){
+	console.log("done BITCH");
+	process.exit(failure);
+});
 
 // start http server
 var http = require('http').createServer(function handler (req, res) {
