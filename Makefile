@@ -1,5 +1,4 @@
-test2 : url = $(shell lt --port 8080 | head -n 1 | cut -d ' ' -f 4 &)
-
+TESTS_CLOUD = test/server_test/*.js
 TESTS = test/*.js
 BENCHMARKS = $(shell find bench -type f ! -name 'runner.js')
 REPORTER = dot
