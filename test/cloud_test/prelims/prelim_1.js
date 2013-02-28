@@ -12,8 +12,7 @@ try {
 	eioc = require('engine.io');
 }
 
-var _clientTest = function(url){
-		var socket = new eioc.Socket(url);
+var _clientTest = function(socket){
 	  socket.on('open', function () {
 	    socket.close();
 	  });

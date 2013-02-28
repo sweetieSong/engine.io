@@ -1,6 +1,6 @@
 require("../common.js");
 var fs = require('fs');
-var local = true;
+var local = false;
 
 describe ("mocha-cloud tests", function(){
 	this.timeout(100000);
@@ -16,8 +16,11 @@ describe ("mocha-cloud tests", function(){
 		  }
 
 		  for (var i = 0 ; i < files.length ; i++) {
-		    var prelim = require(__dirname + "/prelims/" + files[i]);
-		    
+		  	var file = files[i];
+
+		    var prelim = require(__dirname + "/prelims/" + file);
+		    console.log(file);
+
 		    describe(prelim.prelimDesc, function(){
 		      this.timeout(90000);
 		      it(prelim.prelimSpecific, function(testDone){
@@ -25,8 +28,8 @@ describe ("mocha-cloud tests", function(){
 		        var engine = listen(function (port) {
 
 		          if (!local) {
-		            var http = start_http(engine);
-		            var lt = start_lt();
+		            var http = start_http(engine, file);
+		            //var lt = start_lt();
 
 		            /**
 		            lt.on('url', function(url) {
@@ -45,7 +48,7 @@ describe ("mocha-cloud tests", function(){
 		            prelim.serverTest(engine, testDone);
 
 		          } else {
-		            prelim.clientTest('http://localhost:%d'.s(port));
+		            prelim.clientTest(new eioc.Socket('http://localhost:%d'.s(port)));
 								prelim.serverTest(engine, testDone);
 		          }
 

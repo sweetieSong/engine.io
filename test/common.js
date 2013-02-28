@@ -40,7 +40,7 @@ global.listen = function (opts, fn) {
   return e;
 };
 
-global.start_http = function(engine){
+global.start_http = function(engine, testNumber){
 	var fs = require('fs');
 	var http = require('http').createServer();
 	http.listen(8080);
@@ -48,10 +48,12 @@ global.start_http = function(engine){
 	http.on('request', function (req, res) {
 		var uri = req.url.substr(1).split('/');
 
+		console.log(__dirname + req.url);
+
 	  if (uri[0] == 'engine.io'){
 	  	engine.handleRequest(req, res);
 	  } else {
-		  fs.readFile(__dirname + req.url,
+		  fs.readFile(__dirname + "/cloud_test" + req.url,
 			  function (err, data) {
 			    if (err) {
 			      res.writeHead(500);
@@ -59,7 +61,8 @@ global.start_http = function(engine){
 			    }
 
 		    res.writeHead(200);
-		    res.end(data);
+		    console.log(testNumber);
+		    res.end(data.toString().replace("TEST_NUMBER", testNumber));
 		  });
 		}
 	});
