@@ -47,9 +47,7 @@ global.start_http = function(engine, testNumber){
 
 	http.on('request', function (req, res) {
 		var uri = req.url.substr(1).split('/');
-
-		console.log(__dirname + req.url);
-
+		
 	  if (uri[0] == 'engine.io'){
 	  	engine.handleRequest(req, res);
 	  } else {
@@ -61,7 +59,6 @@ global.start_http = function(engine, testNumber){
 			    }
 
 		    res.writeHead(200);
-		    console.log(testNumber);
 		    res.end(data.toString().replace("TEST_NUMBER", testNumber));
 		  });
 		}
