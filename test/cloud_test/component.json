@@ -1,0 +1,7 @@
+{
+	"name" : "eio-test",
+  "local": [
+    "LearnBoost/engine.io-client", 
+    "visionmedia/mocha"
+  ]
+}

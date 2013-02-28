@@ -1,6 +1,6 @@
 require("../common.js");
 var fs = require('fs');
-var local = false;
+local = 'undefined' == typeof local ? false : local; 	// if we have defined local, then run local test
 
 describe ("mocha-cloud tests", function(){
 	this.timeout(100000);
@@ -19,7 +19,6 @@ describe ("mocha-cloud tests", function(){
 		  	var file = files[i];
 
 		    var prelim = require(__dirname + "/prelims/" + file);
-		    console.log(file);
 
 		    describe(prelim.prelimDesc, function(){
 		      this.timeout(90000);
@@ -29,13 +28,10 @@ describe ("mocha-cloud tests", function(){
 
 		          if (!local) {
 		            var http = start_http(engine, file);
-		            //var lt = start_lt();
+		            var lt = start_lt();
 
-		            /**
 		            lt.on('url', function(url) {
 		              url = url + "/index.html";
-
-		              console.log(url);
 		              var cloud = start_cloud(url);
 
 		              cloud.start(function(){
@@ -43,7 +39,6 @@ describe ("mocha-cloud tests", function(){
 		                setTimeout(testDone, 3000);
 		              })
 		            });
-								*/
 
 		            prelim.serverTest(engine, testDone);
 
