@@ -51,7 +51,7 @@ global.start_http = function(engine){
 	  if (uri[0] == 'engine.io'){
 	  	engine.handleRequest(req, res);
 	  } else {
-		  fs.readFile(__dirname + "/client_test" + req.url,
+		  fs.readFile(__dirname + req.url,
 			  function (err, data) {
 			    if (err) {
 			      res.writeHead(500);
@@ -103,8 +103,6 @@ global.start_lt = function(){
 
 	return client;
 }
-
-global.local = true
 
 /**
  * Sprintf util.
