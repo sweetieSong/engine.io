@@ -1,4 +1,3 @@
-require("../../common.js");
 var eoic, expect;
 
 // expect.js does not have a component. try/catch here to fix for browser test
@@ -13,23 +12,25 @@ try {
 	eioc = require('engine.io');
 }
 
-
-module.exports = {
-  clientTest: function(url) {
-	  var socket = new eioc.Socket(url);
+var _clientTest = function(url){
+		var socket = new eioc.Socket(url);
 	  socket.on('open', function () {
 	    socket.close();
 	  });
-	},
+}
 
-  serverTest: function (engine, done) {
-		engine.on('connection', function (conn) {
-      conn.on('close', function (reason) {
-        expect(reason).to.be('transport close');
-        done();
-      });
+var _serverTest = function (engine, done) {
+	engine.on('connection', function (conn) {
+    conn.on('close', function (reason) {
+      expect(reason).to.be('transport close');
+      done();
     });
-	},
+  });
+}
+
+module.exports = {
+  clientTest: _clientTest,
+  serverTest: _serverTest,
 
 	prelimDesc: "close",
 	prelimSpecific: "should trigger when client closes "
