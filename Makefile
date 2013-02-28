@@ -22,18 +22,27 @@ test2:
 	read -p "All tests are done, press [enter] to kill all node instances"
 	killall -9 node
 		
-build:
-	@component install LearnBoost/engine.io-client
-	@component install visionmedia/mocha
-	@component build --standalone eio-test
-	@mv build/build.js test/cloud_test/eio-test.js
+test-local:
+	@./node_modules/.bin/mocha \
+		--require test/cloud_test/local \
+		--reporter $(REPORTER) \
+		--slow 500ms \
+		--bail \
+		test/cloud_test/take_prelim.js
 
-test3:
+test-cloud:
 	@./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
 		--slow 500ms \
 		--bail \
 		test/cloud_test/take_prelim.js
+
+build-test:
+	@make -C test/cloud_test build
+	@make -C test/cloud_test build-clean
+
+build-clean: 
+	@make -C test/cloud_test build-clean
 
 test-cov: lib-cov
 	EIO_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
