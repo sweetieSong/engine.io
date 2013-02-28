@@ -26,10 +26,7 @@ build:
 	@component install LearnBoost/engine.io-client
 	@component install visionmedia/mocha
 	@component build --standalone eio-test
-	@mv build/build.js test/client_test/eio-test.js
-	@rm component.json
-	@rm -rf build
-	@rm -rf components
+	@mv build/build.js test/cloud_test/eio-test.js
 
 test3:
 	@./node_modules/.bin/mocha \
