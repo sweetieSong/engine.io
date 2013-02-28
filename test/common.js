@@ -104,6 +104,8 @@ global.start_lt = function(){
 	return client;
 }
 
+global.local = true
+
 /**
  * Sprintf util.
  */
