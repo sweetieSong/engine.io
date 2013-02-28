@@ -9,7 +9,13 @@ try {
 try {
 	eioc = require('engine.io-client');
 } catch (err){
-	eioc = require('engine.io');
+	eioc = require('LearnBoost-engine.io-client');
+}
+
+// when we run in browser, module is 'undefined'
+if ('undefined' == typeof module) {
+  var module = { exports: {} }
+    , exports = module.exports
 }
 
 var _clientTest = function(socket){
