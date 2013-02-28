@@ -19,6 +19,22 @@ test2:
 		--bail \
 		$(TESTS_CLOUD)
 		
+build:
+	@component install LearnBoost/engine.io-client
+	@component install visionmedia/mocha
+	@component build --standalone eio-test
+	@mv build/build.js test/client_test/eio-test.js
+	@rm component.json
+	@rm -rf build
+	@rm -rf components
+
+test3:
+	@./node_modules/.bin/mocha \
+		--reporter $(REPORTER) \
+		--slow 500ms \
+		--bail \
+		test/cloud_test/take_prelim.js
+
 test-cov: lib-cov
 	EIO_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
 
