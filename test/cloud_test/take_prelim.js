@@ -24,7 +24,7 @@ describe ("mocha-cloud tests", function(){
 		      this.timeout(90000);
 		      it(prelim.prelimSpecific, function(testDone){
 		      
-		        var engine = listen(function (port) {
+		        var engine = listen(prelim.opts, function (port) {
 
 		          if (!local) {
 		            var http = start_http(engine, file);
@@ -40,11 +40,11 @@ describe ("mocha-cloud tests", function(){
 		              })
 		            });
 
-		            prelim.serverTest(engine, testDone);
+		            prelim.serverTest(engine, testDone, false);
 
 		          } else {
 		            prelim.clientTest(new eioc.Socket('http://localhost:%d'.s(port)));
-								prelim.serverTest(engine, testDone);
+								prelim.serverTest(engine, testDone, true);
 		          }
 
 		        })

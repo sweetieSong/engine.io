@@ -19,15 +19,13 @@ if ('undefined' == typeof module) {
 }
 
 var _clientTest = function (socket) {
-  socket.on('open', function () {
-    socket.close();
-  });
+  socket.sendPacket = function () {};
 };
 
 var _serverTest = function (engine, done, local) {
 	engine.on('connection', function (conn) {
     conn.on('close', function (reason) {
-      expect(reason).to.be('transport close');
+      expect(reason).to.be('ping timeout');
       if (local) {
         done();
       }
@@ -40,7 +38,7 @@ module.exports = {
   serverTest: _serverTest,
 
 	prelimDesc: "close",
-	prelimSpecific: "should trigger when client closes ",
+	prelimSpecific: "should trigger on server if the client does not pong",
 
-  opts : {}
+  opts: {allowUpgrades: false, pingInterval: 5, pingTimeout: 5}
 };
