@@ -15,43 +15,9 @@ describe ("mocha-cloud tests", function(){
 		    console.log('Sorry, there are no files to test in the directory');
 		  }
 
-		  for (var i = 0 ; i < files.length ; i++) {
-		  	var file = files[i];
-
-		    var prelim = require(__dirname + "/prelims/" + file);
-
-		    describe(prelim.prelimDesc, function(){
-		      this.timeout(90000);
-		      it(prelim.prelimSpecific, function(testDone){
-		      
-		        var engine = listen(prelim.opts, function (port) {
-
-		          if (!local) {
-		            var http = start_http(engine, file);
-		            var lt = start_lt();
-
-		            lt.on('url', function(url) {
-		              url = url + "/index.html";
-		              var cloud = start_cloud(url);
-
-		              cloud.start(function(){
-		                http.close();
-		                setTimeout(testDone, 3000);
-		              })
-		            });
-
-		            prelim.serverTest(engine, testDone, false);
-
-		          } else {
-		            prelim.clientTest(new eioc.Socket('http://localhost:%d'.s(port)));
-								prelim.serverTest(engine, testDone, true);
-		          }
-
-		        })
-		      })
-		    })
-		  }
-
+      if (files.length > 0) {
+        recursiveTest(files, local, 0);
+      }
 		  done();
 
 		});

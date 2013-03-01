@@ -108,4 +108,44 @@ global.start_lt = function(){
  * Sprintf util.
  */
 
-require('s').extend();
+
+global.recursiveTest = function(files, local, i) {
+  console.log("started test " + i);
+  if (i < files.length) {
+    var file = files[i];
+
+    var prelim = require(__dirname + "/cloud_test/prelims/" + file);
+
+    describe(prelim.prelimDesc, function () {
+      this.timeout(90000);
+      it(prelim.prelimSpecific, function (testDone) {
+      
+        var engine = listen(prelim.opts, function (port) {
+
+          if (!local) {
+            var http = start_http(engine, file);
+            var lt = start_lt();
+
+            lt.on('url', function (url) {
+              url = url + "/index.html";
+              var cloud = start_cloud(url);
+
+              cloud.start(function () {
+                http.close();
+                setTimeout(testDone, 3000); //3000
+              });
+            });
+
+            prelim.serverTest(engine, testDone, false, files, i, recursiveTest);
+
+          } else {
+            prelim.clientTest(new eioc.Socket('http://localhost:' + port));
+            prelim.serverTest(engine, testDone, true, files, i, recursiveTest);
+          }
+
+        });
+      });
+    });
+  }
+};
+
