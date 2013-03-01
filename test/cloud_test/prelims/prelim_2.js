@@ -19,15 +19,32 @@ if ('undefined' == typeof module) {
 }
 
 var _clientTest = function (socket) {
-  socket.sendPacket = function () {};
+  socket.on('open', function () {
+    socket.send('a');
+    socket.send('b');
+    socket.send('c');
+  });
 };
 
-var _serverTest = function (engine, done, local) {
+var _serverTest = function (engine, done, local, files, i, callback) {
+  var a = 0;
+  var b = 0;
+  var c = 0;
+  var all = 0;
 	engine.on('connection', function (conn) {
-    conn.on('close', function (reason) {
-      expect(reason).to.be('ping timeout');
-      if (local) {
-        done();
+    conn.on('message', function (msg) {
+      if (msg == 'a') a ++;
+      if (msg == 'b') b ++;
+      if (msg == 'c') c ++;
+
+      if (++all == 3) {
+        expect(a).to.be(1);
+        expect(b).to.be(1);
+        expect(c).to.be(1);
+        if (local) {
+          done();
+        }
+        callback(files, local, i + 1);
       }
     });
   });
@@ -37,8 +54,8 @@ module.exports = {
   clientTest: _clientTest,
   serverTest: _serverTest,
 
-	prelimDesc: "close",
-	prelimSpecific: "should trigger on server if the client does not pong",
+	prelimDesc: "callback",
+	prelimSpecific: "should execute once for each send ",
 
-  opts: {allowUpgrades: false, pingInterval: 5, pingTimeout: 5}
+  opts : {}
 };
