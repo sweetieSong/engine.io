@@ -11,13 +11,6 @@ test:
 		--bail \
 		$(TESTS)
 
-test2:
-	@./node_modules/.bin/mocha \
-		--require test/common \
-		--reporter $(REPORTER) \
-		--slow 500ms \
-		--bail \
-		$(TESTS_CLOUD)
 		
 test-local:
 	@./node_modules/.bin/mocha \
