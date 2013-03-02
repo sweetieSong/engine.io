@@ -333,6 +333,21 @@ $ make test
 
 And point browser/s to `http://localhost:3000`.
 
+
+### Cloud and local tests
+
+```
+$ make test-local
+```
+
+or
+
+```
+$ make test-cloud
+```
+
+Add all tests to test/cloud_test/prelims/
+
 ### Server
 
 ## Benchmarks
