@@ -67,9 +67,17 @@ global.start_http = function(engine, testNumber){
 	return http
 }
 
-global.start_cloud = function(client_url){
+try{
+		global.authentication = require('../cloud_authentication.json');
+		global.username = authentication.username;
+		global.userkey = authentication.userkey;
+} catch(e) {
+
+}
+
+global.start_cloud = function(client_url,testname){
 	var Cloud = require('mocha-cloud');
-	var cloud = new Cloud('mustard', 'ss2249', 'eea4a2e4-a59d-4ca4-b34e-c65702418b34');
+	var cloud = new Cloud(testname, global.username, global.userkey);
 	cloud.browser('chrome', '', 'Windows 2008');
 	cloud.url(client_url);
 
@@ -133,7 +141,7 @@ global.recursiveTest = function(files, local, i) {
               cloud.start(function () {
                 http.close();
                 setTimeout(testDone, 3000); //3000
-              });
+              },file);
             });
 
             prelim.serverTest(engine, testDone, false, files, i, recursiveTest);
