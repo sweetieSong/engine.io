@@ -16,25 +16,35 @@ var mocha = new Mocha;
 
 mocha.addFile('./test/cloud_test/Prelims.js');
 
+var run_test = function(idx, files, failures, callback){
+  if (idx == files.length) {
+    callback(failures);
+  }
+  else {
+    global.file = files[idx];
+    global.prelim = require(__dirname + "/test/cloud_test/prelims/" + file);
+    mocha.run(function(fail){
+      failures.push(fail);
+      run_test(idx + 1, files, failures, callback);
+    })
+  }
+}
+
 var myArgs = process.argv.slice(2);
 if (myArgs[0] == 'local') {
-  for (var i = 0 ; i < files.length ; i ++) {
-    global.file = files[i];
-    global.url = "http://localhost";
-    global.prelim = require(__dirname + "/test/cloud_test/prelims/" + file);
-    mocha.run();
-  }
+  global.url = "http://localhost";
+  run_test(0, files, [], function(failures){
+    process.exit(failures);
+  })
 } else {
   var lt = start_lt();
 
   lt.on('url', function (url) {
-    console.log("ever get url?");
-    for (var i = 0 ; i < files.length ; i ++) {
-      global.file = files[i];
-      global.url = url;
-      global.prelim = require(__dirname + "/test/cloud_test/prelims/" + file);
-      mocha.run();
-    }
+    console.log("url: " + url);
+    global.url = url;
+    run_test(0, files, [], function(failures){
+      process.exit(failures);
+    })
   });
 }
 

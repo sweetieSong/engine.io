@@ -6,23 +6,19 @@ var fs = require('fs');
  */
 
 describe("test", function () {
-
-
   describe(prelim.prelimDesc, function () {
     this.timeout(90000);
     it(prelim.prelimSpecific, function (done) {
-     
       var engine = listen(prelim.opts, function (port) {
 
         if (url.indexOf("localhost") < 0) {
-          console.log("not local");
           var http = start_http(engine, file);
 
-          url = url + "/index.html";
-          var cloud = start_cloud(url);
+          var cloud = start_cloud(url + "/index.html");
 
           cloud.start(function () {
             http.close();
+            done();
           });
 
           prelim.serverTest(engine, false, done);
