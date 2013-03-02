@@ -17,7 +17,7 @@ describe(prelim.prelimDesc, function () {
 
         cloud.start(function () {
           http.close();
-          done();
+          setTimeout(done, 3000);
         });
 
         // the clientTest will be completed on the browser
