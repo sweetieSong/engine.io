@@ -24,6 +24,11 @@ global.request = require('superagent');
 global.expect = require('expect.js');
 
 /**
+ * Expose `fs` global
+ */
+global.fs = require('fs');
+
+/**
  * Listen shortcut that fires a callback on an epheemal port.
  */
 
