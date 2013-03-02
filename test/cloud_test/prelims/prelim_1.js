@@ -24,15 +24,13 @@ var _clientTest = function (socket) {
   });
 };
 
-var _serverTest = function (engine, done, local, files, i, callback) {
+var _serverTest = function (engine, local, done) {
 	engine.on('connection', function (conn) {
     conn.on('close', function (reason) {
       expect(reason).to.be('transport close');
       if (local) {
         done();
       }
-      callback(files, local, i + 1);
-      
     });
   });
 };
