@@ -26,7 +26,7 @@ var _clientTest = function (socket) {
   });
 };
 
-var _serverTest = function (engine, done, local, files, i, callback) {
+var _serverTest = function (engine, local, done) {
   var a = 0;
   var b = 0;
   var c = 0;
@@ -44,7 +44,6 @@ var _serverTest = function (engine, done, local, files, i, callback) {
         if (local) {
           done();
         }
-        callback(files, local, i + 1);
       }
     });
   });
