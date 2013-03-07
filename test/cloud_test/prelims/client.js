@@ -12,11 +12,9 @@ var http = require('http')
  */
 
 describe('server', function () {
-
   describe('verification', function () {
-
       it('check that receive message', function (done) {
-          var socket = new eioc.Socket('http://stkc.localtunnel.me');
+          var socket = new eioc.Socket(url + '/1');
 
           socket.on('open', function () {
             socket.on('message', function (msg) {
@@ -26,6 +24,14 @@ describe('server', function () {
           });
       });
 
+      it('check that server close is handled', function(done){
+        var socket = new eioc.Socket(url + '/2');
+
+        socket.on('close', function(reason){
+          expect(reason).to.be('trasport close');
+          done();
+        })
+      })
   });
 
 });
