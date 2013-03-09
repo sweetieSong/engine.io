@@ -6,7 +6,7 @@ describe('JSON', function(){
     });
     
     it('should stringify an object', function(){
-      expect(JSON.stringify({a:'b'})).to.be('{"a":"b" }');
+      expect(JSON.stringify({a:'b'})).to.be('{"a":"b"}');
     });
   });
   
