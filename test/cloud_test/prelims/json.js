@@ -1,5 +1,3 @@
-var expect = require('expect.js');
- 
 describe('JSON', function(){
   
   describe('#stringify', function(){

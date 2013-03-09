@@ -1,6 +1,60 @@
-<script type="text/javascript" src="http://redsky.cs.cornell.edu/expect.js"></script>
-<script type="text/javascript" src="http://redsky.cs.cornell.edu/eio-test.js"></script>
-<script type="text/javascript" src="prelims/test.js"></script>
-<script type="text/javascript">
-  window.mochaResults = "done";
-</script>
+<html>
+  <head>
+    <script type="text/javascript" src="http://redsky.cs.cornell.edu/expect.js"></script>
+    <script type="text/javascript" src="http://redsky.cs.cornell.edu/eio-test.js"></script>
+
+    <script type="text/javascript">
+      var eoic, expect, Mocha, mocha;
+
+      // expect.js does not have a component. try/catch here to fix for browser test
+      try {
+        expect = require("expect.js");
+      } catch (err) {
+        console.log("error caught");  
+      }
+
+      // include engine.io-client (because component packages it differently, need try/catch)
+      try {
+        eioc = require('engine.io-client');
+      } catch (err){
+        eioc = require('LearnBoost-engine.io-client');
+      }
+    
+      try {
+        Mocha = require('mocha');
+      } catch (err){
+        Mocha = require('visionmedia-mocha');
+      }
+      
+      // when we run in browser, module is 'undefined'
+      if ('undefined' == typeof module) {
+        var module = { exports: {} }
+          , exports = module.exports;
+      }
+     
+      mocha = new Mocha();
+    
+    </script>
+
+    <script>mocha.setup('bdd')</script>
+    <script src="prelims/json.js"></script>
+    <script>
+    onload = function(){
+      var runner = mocha.run();
+      // runner.globals(['foo', 'bar', 'baz']);
+
+      // runner.on('test end', function(test){
+      //   console.log(test.fullTitle());
+      // });
+    };
+    </script>
+
+    <script type="text/javascript">
+      window.mochaResults = "done";
+    </script>
+  </head>
+
+  <body>
+    <div id="mocha"></div>
+  </body>
+</html>
