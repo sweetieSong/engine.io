@@ -34,14 +34,20 @@
         var module = { exports: {} }
           , exports = module.exports;
       }
-     
+    
+      process.stdout.write = function(content){
+        window.mochaResults = JSON.parse(content);
+      }
+
     </script>
 
-    <script>mocha.setup('bdd')</script>
+    <script type="text/javascript">
+      mocha.setup('bdd')
+    </script>
     <script src="prelims/json.js"></script>
     <script>
     onload = function(){
-      var runner = mocha.run();
+      var runner = mocha.reporter('json').run();
       // runner.globals(['foo', 'bar', 'baz']);
 
       // runner.on('test end', function(test){
