@@ -84,6 +84,7 @@ global.start_cloud = function(client_url,testname){
 	var Cloud = require('mocha-cloud');
 	var cloud = new Cloud(testname, global.username, global.userkey);
 	cloud.browser('chrome', '', 'Windows 2008');
+  cloud.browser('firefox', '17', 'Mac 10.6');
 	cloud.url(client_url);
 
 	cloud.on('init', function (browser) {
@@ -95,8 +96,11 @@ global.start_cloud = function(client_url,testname){
 	});
 
 	cloud.on('end', function (browser, res) {
-	  console.log('  end : %s %s : %d failures', browser.browserName, browser.version, res.failures);
-	});
+    res.failures.forEach(function(failure){
+      console.log(failure.fullTitle + "\n");
+    });
+
+  });
 
 	return cloud;
 }
