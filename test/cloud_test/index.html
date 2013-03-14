@@ -70,15 +70,7 @@
           }
         };
 
-        var oscpu = navigator.oscpu;
-        var vendorSub = navigator.vendorSub;
-        var vendor = navigator.vendor;
-
-        var url = "browserName="+ encodeURIComponent(vendor) + 
-                  "&browserVersion=" + encodeURIComponent(vendorSub) + 
-                  "&browserPlatform=" + encodeURIComponent(oscpu) +
-                  "&fullTitle=" + encodeURIComponent(fail.fullTitle) + 
-                  "&message=" + encodeURIComponent(fail.error.message) + 
+        var url = "fullTitle=" + encodeURIComponent(fail.fullTitle) + 
                   "&stack=" + encodeURIComponent(fail.error.stack);
         console.log(url);
 
