@@ -34,7 +34,9 @@
         var module = { exports: {} }
           , exports = module.exports;
       }
-    
+  
+      /**
+      // write to mochaResults when test is over
       process.stdout.write = function(content){
         window.mochaResults = JSON.parse(content);
         failures = window.mochaResults.failures;
@@ -42,6 +44,7 @@
         window.mochaResults.failures = failures.length==0?undefined:failures;
         window.mochaResults.failed = window.mochaResults.failures;
       }
+      */
 
     </script>
 
@@ -54,11 +57,10 @@
     <script>
 
     onload = function(){
-      //var runner = mocha.reporter('json').run();
-      // runner.globals(['foo', 'bar', 'baz']);
 
       var runner = mocha.run();
-
+       
+      // Mocha-cloud runner
       var failed = [];
       runner.on('fail', function(test, err){
         var fail = {
@@ -70,22 +72,20 @@
           }
         };
 
+        // on fail, push to server 
         var url = "fullTitle=" + encodeURIComponent(fail.fullTitle) + 
                   "&stack=" + encodeURIComponent(fail.error.stack);
-        console.log(url);
-
         failed.push(fail);
+        
         $("body").append("<img src=\"" + url + "\" />");
       });
 
+      // when test ends, set global mochaResults
       runner.on('end', function(){
         runner.stats.failed = failed;
         window.mochaResults = runner.stats;
       });
       
-      // runner.on('test end', function(test){
-      //   console.log(test.fullTitle());
-      // });
     };
     </script>
 
