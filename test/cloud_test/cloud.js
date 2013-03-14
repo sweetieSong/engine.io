@@ -10,19 +10,30 @@ var Canvas = require('term-canvas')
 var cloud = new Cloud("canvas?", global.username, global.userkey);
 cloud.browser('chrome', '', 'Windows 2008');
 cloud.browser('firefox', '17', 'Mac 10.6');
+cloud.browser('iphone', '5.0', 'Mac 10.6');
+cloud.browser('iphone', '5.1', 'Mac 10.8');
+cloud.browser('iphone', '6', 'Mac 10.8');
+cloud.browser('ipad', '5.1', 'Mac 10.8');
+cloud.browser('ipad', '6', 'Mac 10.8');
+//cloud.browser('safari', '5', 'Mac 10.6');
+//cloud.browser('chrome', '', 'Mac 10.8');
+//cloud.browser('firefox', '15', 'Windows 2003');
+//cloud.browser('firefox', '16', 'Windows 2003');
+//cloud.browser('firefox', '17', 'Windows 2003');
 
 cloud.on('init', function (browser) {
-  console.log('  init : %s %s', browser.browserName, browser.version);
+//  console.log('  init : %s %s', browser.browserName, browser.version);
 });
 
 cloud.on('start', function (browser) {
-  console.log('  start : %s %s', browser.browserName, browser.version);
+//  console.log('  start : %s %s', browser.browserName, browser.version);
 });
 
 cloud.on('end', function (browser, res) {
-  res.failures.forEach(function(failure){
+//  console.log('finished');
+//res.failures.forEach(function(failure){
 //    console.log(failure.fullTitle + "\n");
-  });
+  //});
 
 });
 
@@ -32,7 +43,7 @@ var client = lt_client.connect({
 });
 
 client.on('url', function(url) {
-  console.log(url + '/index.html');
+  //console.log(url + '/index.html');
   cloud.url(url + '/index.html');
 });
 
@@ -63,5 +74,5 @@ cloud.start(function(){
   setTimeout(function(){
     ctx.showCursor();
     process.exit(grid.totalFailures());
-  }, 100);
+  }, 3000);
 });
