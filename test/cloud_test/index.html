@@ -5,7 +5,7 @@
     <script type="text/javascript" src="http://redsky.cs.cornell.edu/expect.js"></script>
     <script type="text/javascript" src="http://redsky.cs.cornell.edu/eio-test.js"></script>
     
-    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript">
       var eoic, expect, Mocha, mocha;
 
@@ -50,7 +50,9 @@
     </script>
     <script src="prelims/json_fail.js"></script>
     <script src="prelims/json.js"></script>
+    <script src="prelims/json_fail.js"></script>
     <script>
+
     onload = function(){
       //var runner = mocha.reporter('json').run();
       // runner.globals(['foo', 'bar', 'baz']);
@@ -59,14 +61,29 @@
 
       var failed = [];
       runner.on('fail', function(test, err){
-        failed.push({
+        var fail = {
           title: test.title,
           fullTitle: test.fullTitle(),
           error: {
             message: err.message,
             stack: err.stack
           }
-        });
+        };
+
+        var oscpu = navigator.oscpu;
+        var vendorSub = navigator.vendorSub;
+        var vendor = navigator.vendor;
+
+        var url = "browserName="+ encodeURIComponent(vendor) + 
+                  "&browserVersion=" + encodeURIComponent(vendorSub) + 
+                  "&browserPlatform=" + encodeURIComponent(oscpu) +
+                  "&fullTitle=" + encodeURIComponent(fail.fullTitle) + 
+                  "&message=" + encodeURIComponent(fail.error.message) + 
+                  "&stack=" + encodeURIComponent(fail.error.stack);
+        console.log(url);
+
+        failed.push(fail);
+        $("body").append("<img src=\"" + url + "\" />");
       });
 
       runner.on('end', function(){

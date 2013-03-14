@@ -10,11 +10,12 @@ var Canvas = require('term-canvas')
 var cloud = new Cloud("canvas?", global.username, global.userkey);
 cloud.browser('chrome', '', 'Windows 2008');
 cloud.browser('firefox', '17', 'Mac 10.6');
-cloud.browser('iphone', '5.0', 'Mac 10.6');
-cloud.browser('iphone', '5.1', 'Mac 10.8');
-cloud.browser('iphone', '6', 'Mac 10.8');
-cloud.browser('ipad', '5.1', 'Mac 10.8');
-cloud.browser('ipad', '6', 'Mac 10.8');
+
+//cloud.browser('iphone', '5.0', 'Mac 10.6');
+//cloud.browser('iphone', '5.1', 'Mac 10.8');
+//cloud.browser('iphone', '6', 'Mac 10.8');
+//cloud.browser('ipad', '5.1', 'Mac 10.8');
+//cloud.browser('ipad', '6', 'Mac 10.8');
 //cloud.browser('safari', '5', 'Mac 10.6');
 //cloud.browser('chrome', '', 'Mac 10.8');
 //cloud.browser('firefox', '15', 'Windows 2003');
@@ -67,7 +68,6 @@ process.on('SIGINT', function(){
 // output failure messages
 // once complete, and exit > 0
 // accordingly
-
 
 cloud.start(function(){
   grid.showFailures();
