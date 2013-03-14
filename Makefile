@@ -27,7 +27,8 @@ test-local:
 		local
 
 test-cloud:
-	@node \
+	@NODE_PATH=`pwd`/test \
+	node \
 		test/cloud_test/take_prelim.js 
 
 build-test:

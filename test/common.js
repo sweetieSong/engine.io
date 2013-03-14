@@ -45,80 +45,89 @@ global.listen = function (opts, fn) {
   return e;
 };
 
-global.start_http = function(engine, testNumber){
-	var fs = require('fs');
-	var http = require('http').createServer();
-	http.listen(8080);
+global.start_http = function(){
+  var fs = require('fs');
+  var http = require('http').createServer();
+  http.listen(8080);
 
-	http.on('request', function (req, res) {
-		var uri = req.url.substr(1).split('/');
-		
-	  if (uri[0] == 'engine.io'){
-	  	engine.handleRequest(req, res);
-	  } else {
-		  fs.readFile(__dirname + "/cloud_test" + req.url,
-			  function (err, data) {
-			    if (err) {
-			      res.writeHead(500);
-			      return res.end('Error loading data');
-			    }
+  // http requests
+  http.on('request', function (req, res) {
+  //  console.log(req.url);
+    if (req.url.indexOf('fullTitle') > -1) {
+      var stripped = decodeURIComponent(req.url);
+      var indexFullTitle = stripped.indexOf('fullTitle') + 10
+        , indexStack = stripped.indexOf('stack') + 6;
 
-		    res.writeHead(200);
-		    res.end(data.toString().replace("TEST_NUMBER", testNumber));
-		  });
-		}
-	});
+      var fullTitle = stripped.substring(indexFullTitle, indexStack - 7)
+        , stack = stripped.substring(indexStack, stripped.length - 1);
 
-	return http
+      var agent = useragent.parse(req.headers['user-agent']);
+      grid.failTest(agent.toString(), fullTitle, stack);
+
+    } else {
+      fs.readFile(__dirname + req.url,
+        function (err, data) {
+          if (err) {
+            res.writeHead(500);
+            return res.end('Error loading data');
+          }
+        
+          res.writeHead(200);
+          res.end(data.toString());
+        });
+    }
+  });
+
+  return http
 }
 
 try{
-		global.authentication = require('../cloud_authentication.json');
-		global.username = authentication.username;
-		global.userkey = authentication.userkey;
+    global.authentication = require('../cloud_authentication.json');
+    global.username = authentication.username;
+    global.userkey = authentication.userkey;
 } catch(e) {
 
 }
 
 global.start_cloud = function(client_url,testname){
-	var Cloud = require('mocha-cloud');
-	var cloud = new Cloud(testname, global.username, global.userkey);
-	cloud.browser('chrome', '', 'Windows 2008');
+  var Cloud = require('mocha-cloud');
+  var cloud = new Cloud(testname, global.username, global.userkey);
+  cloud.browser('chrome', '', 'Windows 2008');
   cloud.browser('firefox', '17', 'Mac 10.6');
-	cloud.url(client_url);
+  cloud.url(client_url);
+/*
+  cloud.on('init', function (browser) {
+    console.log('  init : %s %s', browser.browserName, browser.version);
+  });
 
-	cloud.on('init', function (browser) {
-	  console.log('  init : %s %s', browser.browserName, browser.version);
-	});
+  cloud.on('start', function (browser) {
+    console.log('  start : %s %s', browser.browserName, browser.version);
+  });
 
-	cloud.on('start', function (browser) {
-	  console.log('  start : %s %s', browser.browserName, browser.version);
-	});
-
-	cloud.on('end', function (browser, res) {
+  cloud.on('end', function (browser, res) {
     res.failures.forEach(function(failure){
       console.log(failure.fullTitle + "\n");
     });
 
   });
-
-	return cloud;
+*/
+  return cloud;
 }
 
 global.start_lt = function(){
-	var lt_client = require('localtunnel').client;
-	var client = lt_client.connect({
-	    // the localtunnel server
-	    host: 'http://localtunnel.me',
-	    // your local application port
-	    port: 8080
-	});
+  var lt_client = require('localtunnel').client;
+  var client = lt_client.connect({
+      // the localtunnel server
+      host: 'http://localtunnel.me',
+      // your local application port
+      port: 8080
+  });
 
-	client.on('error', function(err) {
-	    console.log(err);
-	});
+  client.on('error', function(err) {
+      console.log(err);
+  });
 
-	return client;
+  return client;
 }
 
 /**
