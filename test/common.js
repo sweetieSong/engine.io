@@ -45,14 +45,39 @@ global.listen = function (opts, fn) {
   return e;
 };
 
-global.start_http = function(){
-  var fs = require('fs');
-  var http = require('http').createServer();
+/** 
+ * Prints the async errors to the error.txt
+ */
+global.print_errors = function(browsers, fullTitle, stack) {
+  
+  var log = fs.createWriteStream('errors.txt', {flags: 'a', encoding: null});
+  log.once('open', function (fd) {
+    log.write("\n");
+    var string = browsers
+    log.write(browsers);
+    log.write("\n");
+    log.write(fullTitle);
+    log.write("\n");
+    var replaced = stack.replace(/^/gm, '       ');
+    log.write(replaced);
+    log.write("\n");
+    log.end();
+  });
+};
+
+/**
+ * Starts an http server and serves the files 
+ * and handle img requests
+ */
+global.start_http = function(grid){
+  var useragent = require('useragent')
+    , http = require('http').createServer();
   http.listen(8080);
 
+  fs.writeFile('errors.txt', "");
   // http requests
   http.on('request', function (req, res) {
-  //  console.log(req.url);
+    // If the request is a test response
     if (req.url.indexOf('fullTitle') > -1) {
       var stripped = decodeURIComponent(req.url);
       var indexFullTitle = stripped.indexOf('fullTitle') + 10
@@ -62,10 +87,14 @@ global.start_http = function(){
         , stack = stripped.substring(indexStack, stripped.length - 1);
 
       var agent = useragent.parse(req.headers['user-agent']);
-      grid.failTest(agent.toString(), fullTitle, stack);
+      print_errors(agent.toString(), fullTitle, stack);
+      var family = agent.toAgent().split(' ');
+      var name = family[0];
+      var version = family[1].split('.')[0];
+      grid.markErrored(name, version, agent.os.toString());
 
     } else {
-      fs.readFile(__dirname + req.url,
+      fs.readFile(__dirname + '/cloud_test' + req.url,
         function (err, data) {
           if (err) {
             res.writeHead(500);
@@ -89,31 +118,9 @@ try{
 
 }
 
-global.start_cloud = function(client_url,testname){
-  var Cloud = require('mocha-cloud');
-  var cloud = new Cloud(testname, global.username, global.userkey);
-  cloud.browser('chrome', '', 'Windows 2008');
-  cloud.browser('firefox', '17', 'Mac 10.6');
-  cloud.url(client_url);
-/*
-  cloud.on('init', function (browser) {
-    console.log('  init : %s %s', browser.browserName, browser.version);
-  });
-
-  cloud.on('start', function (browser) {
-    console.log('  start : %s %s', browser.browserName, browser.version);
-  });
-
-  cloud.on('end', function (browser, res) {
-    res.failures.forEach(function(failure){
-      console.log(failure.fullTitle + "\n");
-    });
-
-  });
-*/
-  return cloud;
-}
-
+/** 
+ * Starts the localtunnel instance
+ */
 global.start_lt = function(){
   var lt_client = require('localtunnel').client;
   var client = lt_client.connect({

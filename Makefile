@@ -21,11 +21,6 @@ test2:
 	read -p "All tests are done, press [enter] to kill all node instances"
 	killall -9 node
 		
-test-local:
-	@node \
-		test/cloud_test/take_prelim.js \
-		local
-
 test-cloud:
 	@NODE_PATH=`pwd`/test \
 	node \

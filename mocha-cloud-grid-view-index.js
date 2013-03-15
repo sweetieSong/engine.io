@@ -116,7 +116,7 @@ GridView.prototype.onend = function(browser, res){
 
 GridView.prototype.symbolFor = function(browser){
   if ('end' != browser.state) return exports.symbols.none;
-  if (browser.results.failures) return exports.symbols.error;
+  if (browser.state == 'fail' || browser.results.failures) return exports.symbols.error;
   return exports.symbols.ok;
 };
 
@@ -130,7 +130,7 @@ GridView.prototype.symbolFor = function(browser){
 
 GridView.prototype.colorFor = function(browser){
   if ('end' != browser.state) return exports.colors.none;
-  if (browser.results.failures) return exports.colors.error;
+  if (browser.state == 'fail' || browser.results.failures) return exports.colors.error;
   return exports.colors.ok;
 };
 
@@ -217,6 +217,9 @@ function format(b) {
   return b.browserName + ' ' + b.version + ' on ' + b.platform;
 }
 
+/**
+ * Mark this browser as having failed
+ */
 GridView.prototype.markErrored = function (name, version, platform) {
   var cloudName;
   if (name.toLowerCase().indexOf('chrome') > -1) {
@@ -231,36 +234,15 @@ GridView.prototype.markErrored = function (name, version, platform) {
   } else if (platform.toLowerCase().indexOf('mac') > -1) {
     cloudPlatform = platform;
   }
-  var self = this;
-  var max = this.max;
-  var w = this.w;
-  var h = this.h;
-  var x = 4;
-  var y = 3;
-  var ctx = this.ctx;
-
   this.browsers.forEach(function (browser) {
-    if (x + max > w - 5) { y += 3; x = 4; }
-    var sym = self.symbolFor(browser);
-    var color = self.colorFor(browser);
     var name = browser.browserName;
     var version = browser.version;
 
-    if (browser.browserName == 'chrome' || (browser.browserName == cloudName && browser.platform == cloudPlatform)) {
-      color = exports.colors.error;
-      sym = exports.symbols.error;
+    if (browser.browserName == cloudName && browser.platform == cloudPlatform) {
+      browser.state = 'fail';
     }
-    var platform = browser.platform;
-    var label = name + ' ' + version;
-    var pad = Array(max - label.length).join(' ');
-    var ppad = Array(max - platform.length + 2).join(' ');
-    ctx.moveTo(x, y);
-    ctx.write(label + pad);
-    ctx.write(' \033[' + color + 'm' + sym + '\033[0m');
-    ctx.moveTo(x, y + 1);
-    ctx.write('\033[90m' + platform + ppad + '\033[0m');
-    x += max + 6;
   });
-  ctx.write('\n\n');
+
+  this.draw(this.ctx);
 
 };
