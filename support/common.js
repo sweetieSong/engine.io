@@ -94,7 +94,7 @@ global.start_http = function(grid){
       grid.markErrored(name, version, agent.os.toString());
 
     } else {
-      fs.readFile(__dirname + '/cloud_test' + req.url,
+      fs.readFile(__dirname + '/../test' + req.url,
         function (err, data) {
           if (err) {
             res.writeHead(500);
@@ -111,7 +111,7 @@ global.start_http = function(grid){
 }
 
 try{
-    global.authentication = require('../cloud_authentication.json');
+    global.authentication = require('cloud_authentication.json');
     global.username = authentication.username;
     global.userkey = authentication.userkey;
 } catch(e) {
