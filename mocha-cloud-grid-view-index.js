@@ -217,23 +217,25 @@ function format(b) {
   return b.browserName + ' ' + b.version + ' on ' + b.platform;
 }
 
+var browser_map = {
+  "chrome Windows 2008"   : "chrome"
+  , "iphone 5.0 Mac 10.6" : "iphone"
+  , "safari 5 Mac 10.6"   : "safari"
+};
+
+var platform_map = {
+  "chrome Windows 2008"   : "windows"
+  , "iphone 5.0 Mac 10.6" : "mac"
+  , "safari 5 Mac 10.6"   : "mac"
+}
+
 /**
  * Mark this browser as having failed
  */
 GridView.prototype.markErrored = function (name, version, platform) {
-  var cloudName;
-  if (name.toLowerCase().indexOf('chrome') > -1) {
-    cloudName = 'chrome';
-  } else if (name.toLowerCase().indexOf('safari') > -1) {
-    cloudName = 'safari';
-  }
+  var cloudName = browser_map[name.toLowerCase()];
+  var cloudPlatform = platform_map[platform.toLowerCase()];
 
-  var cloudPlatform;
-  if (platform.toLowerCase().indexOf('windows 7') > -1) {
-    cloudPlatform = 'Windows 2008';
-  } else if (platform.toLowerCase().indexOf('mac') > -1) {
-    cloudPlatform = platform;
-  }
   this.browsers.forEach(function (browser) {
     var name = browser.browserName;
     var version = browser.version;
