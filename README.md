@@ -346,7 +346,7 @@ or
 $ make test-cloud
 ```
 
-Add all tests to test/cloud_test/prelims/
+Currently the only test is json.js, but more can be added shortly. Please copy mocha-cloud-grid-vew-index.js into the index.file of node_modules/mocha-cloud-grid-view
 
 ### Server
 

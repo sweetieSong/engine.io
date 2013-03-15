@@ -218,15 +218,15 @@ function format(b) {
 }
 
 var browser_map = {
-  "chrome Windows 2008"   : "chrome"
-  , "iphone 5.0 Mac 10.6" : "iphone"
-  , "safari 5 Mac 10.6"   : "safari"
+  "Chrome"   : "chrome"
+  , "Safari" : "safari"
+  , "Mobile Safari"   : "iphone"
 };
 
 var platform_map = {
-  "chrome Windows 2008"   : "windows"
-  , "iphone 5.0 Mac 10.6" : "mac"
-  , "safari 5 Mac 10.6"   : "mac"
+  "Windows 7"   : "Windows 2008"
+  , "iOS 5.08" : "Mac 10.6"
+  , "Mac OS X 10.6.8": "Mac 10.6"
 }
 
 /**
