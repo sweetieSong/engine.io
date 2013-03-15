@@ -217,13 +217,50 @@ function format(b) {
   return b.browserName + ' ' + b.version + ' on ' + b.platform;
 }
 
-GridView.prototype.failTest = function (userAgent, failedFullTitle, failedStack) {
-  console.log();
-  console.log('\033[34m Failed from async test \033[m');
-  console.log('   \033[90m%s\033[m', userAgent);
-  console.log();
-  console.log('    %d) %s', 1, failedFullTitle);
-  console.log();
-  console.log('\033[31m%s\033[m', failedStack.replace(/^/gm, '       '));
-  console.log();
+GridView.prototype.markErrored = function (name, version, platform) {
+  var cloudName;
+  if (name.toLowerCase().indexOf('chrome') > -1) {
+    cloudName = 'chrome';
+  } else if (name.toLowerCase().indexOf('safari') > -1) {
+    cloudName = 'safari';
+  }
+
+  var cloudPlatform;
+  if (platform.toLowerCase().indexOf('windows 7') > -1) {
+    cloudPlatform = 'Windows 2008';
+  } else if (platform.toLowerCase().indexOf('mac') > -1) {
+    cloudPlatform = platform;
+  }
+  var self = this;
+  var max = this.max;
+  var w = this.w;
+  var h = this.h;
+  var x = 4;
+  var y = 3;
+  var ctx = this.ctx;
+
+  this.browsers.forEach(function (browser) {
+    if (x + max > w - 5) { y += 3; x = 4; }
+    var sym = self.symbolFor(browser);
+    var color = self.colorFor(browser);
+    var name = browser.browserName;
+    var version = browser.version;
+
+    if (browser.browserName == 'chrome' || (browser.browserName == cloudName && browser.platform == cloudPlatform)) {
+      color = exports.colors.error;
+      sym = exports.symbols.error;
+    }
+    var platform = browser.platform;
+    var label = name + ' ' + version;
+    var pad = Array(max - label.length).join(' ');
+    var ppad = Array(max - platform.length + 2).join(' ');
+    ctx.moveTo(x, y);
+    ctx.write(label + pad);
+    ctx.write(' \033[' + color + 'm' + sym + '\033[0m');
+    ctx.moveTo(x, y + 1);
+    ctx.write('\033[90m' + platform + ppad + '\033[0m');
+    x += max + 6;
+  });
+  ctx.write('\n\n');
+
 };
