@@ -22,9 +22,9 @@ test2:
 	killall -9 node
 		
 test-cloud:
-	@NODE_PATH=`pwd`/support \
+	@NODE_PATH=`pwd`/support:`pwd`/test \
 	node \
-		test/take_prelim.js 
+		test/runCloud.js 
 
 build-test:
 	@make -C test build

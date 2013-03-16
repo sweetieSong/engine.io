@@ -69,7 +69,7 @@ global.print_errors = function(browsers, fullTitle, stack) {
  * Starts an http server and serves the files 
  * and handle img requests
  */
-global.start_http = function(grid){
+global.start_http = function(grid, engines){
   var useragent = require('useragent')
     , http = require('http').createServer();
   http.listen(8080);
@@ -77,8 +77,15 @@ global.start_http = function(grid){
   fs.writeFile('errors.txt', "");
   // http requests
   http.on('request', function (req, res) {
+    // If the request is for sockets
+    if (req.url.indexOf('engine.io') > -1) {
+      var splits = req.url.split('/');
+      var index = parseInt(splits[2], 10);
+
+      // Give it to the appropriate socket
+      engines[index].handleRequest(req, res);
+    } else if (req.url.indexOf('fullTitle') > -1) {
     // If the request is a test response
-    if (req.url.indexOf('fullTitle') > -1) {
       var stripped = decodeURIComponent(req.url);
       var indexFullTitle = stripped.indexOf('fullTitle') + 10
         , indexStack = stripped.indexOf('stack') + 6;
