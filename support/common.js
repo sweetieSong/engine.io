@@ -77,10 +77,16 @@ global.start_http = function(grid, engines){
   fs.writeFile('errors.txt', "");
   // http requests
   http.on('request', function (req, res) {
+    console.log(req.url);
     // If the request is for sockets
-    if (req.url.indexOf('engine.io') > -1) {
+    if (req.url.indexOf('test_engine.io') > -1) {
       var splits = req.url.split('/');
-      var index = parseInt(splits[2], 10);
+      var index;
+      if (req.url.indexOf('localhost') > -1) {
+        index = parseInt(splits[4], 10);
+      } else {
+        index = parseInt(splits[2], 10);
+      }
 
       // Give it to the appropriate socket
       engines[index].handleRequest(req, res);
@@ -98,7 +104,9 @@ global.start_http = function(grid, engines){
       var family = agent.toAgent().split(' ');
       var name = family[0];
       var version = family[1].split('.')[0];
-      grid.markErrored(name, version, agent.os.toString());
+      if (grid != null) {
+        grid.markErrored(name, version, agent.os.toString());
+      }
 
     } else {
       fs.readFile(__dirname + '/../test' + req.url,

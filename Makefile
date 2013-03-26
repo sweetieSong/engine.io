@@ -26,6 +26,11 @@ test-cloud:
 	node \
 		test/runCloud.js 
 
+test-local:
+	@NODE_PATH=`pwd`/support:`pwd`/test \
+	node \
+		test/runLocal.js
+
 build-test:
 	@make -C test build
 	@make -C test build-clean
