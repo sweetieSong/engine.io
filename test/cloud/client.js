@@ -8,7 +8,7 @@ describe('server', function () {
   this.timeout(90000);
   describe('verification', function () {
     it('check that receive message', function (done) {
-      var socket = new eioc.Socket({path: '/engine.io/0'});
+      var socket = new eioc.Socket({path: '/engine.io/0', port: 8080});
 
       socket.on('open', function () {
         socket.on('message', function (msg) {
@@ -19,7 +19,7 @@ describe('server', function () {
     });
 
     it('check that server close is handled', function(done){
-      var socket = new eioc.Socket({path: '/engine.io/1'});
+      var socket = new eioc.Socket({path: '/engine.io/1', port: 8080});
 
       socket.on('close', function(reason){
         expect(reason).to.be('transport close');

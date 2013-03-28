@@ -9,8 +9,8 @@ var Canvas = require('term-canvas')
 // create a cloud instance with browsers
 var cloud = new Cloud("async", global.username, global.userkey);
 cloud.browser('chrome', '', 'Windows 2008');
-//cloud.browser('firefox', '17', 'Mac 10.6');
-//cloud.browser('iphone', '5.0', 'Mac 10.6');
+cloud.browser('firefox', '17', 'Mac 10.6');
+cloud.browser('iphone', '5.0', 'Mac 10.6');
 //cloud.browser('iphone', '5.1', 'Mac 10.8');
 //cloud.browser('iphone', '6', 'Mac 10.8');
 //cloud.browser('ipad', '5.1', 'Mac 10.8');

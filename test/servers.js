@@ -2,6 +2,7 @@ require('common.js');
 
 module.exports = function () {
   var engines = []
+    , ports = []
     , idx = 0;
 
   /**
