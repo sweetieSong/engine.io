@@ -1,4 +1,6 @@
 require("common.js");
+global.port = 8080;
+
 var Mocha = require('mocha')
   , servers = require('servers.js');
 var mocha = new Mocha;

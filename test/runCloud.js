@@ -1,4 +1,6 @@
 require("common.js");
+global.port = 80;
+
 var Canvas = require('term-canvas')
   , size = process.stdout.getWindowSize()
   , GridView = require('mocha-cloud-grid-view')
@@ -7,10 +9,10 @@ var Canvas = require('term-canvas')
   , servers = require('servers.js');
 
 // create a cloud instance with browsers
-var cloud = new Cloud("async", global.username, global.userkey);
+var cloud = new Cloud("QIMING FANG", global.username, global.userkey);
 
-cloud.browser('opera', '11', 'Windows 2003');
-cloud.browser('opera', '12', 'Windows 2008');
+//cloud.browser('opera', '11', 'Windows 2003');
+//cloud.browser('opera', '12', 'Windows 2008');
 
 //cloud.browser('internet explorer', '6', 'Windows 2003');
 //cloud.browser('internet explorer', '8', 'Windows 2008');
@@ -21,10 +23,12 @@ cloud.browser('firefox', '15', 'Windows 2003');
 cloud.browser('firefox', '3.0', 'Windows 2008');
 cloud.browser('firefox', '3.5', 'Windows 2012');
 cloud.browser('firefox', '18', 'Windows 2012')
+*/
 
 cloud.browser('chrome', '', 'Windows 2008');
 cloud.browser('safari', '5', 'Windows 2008');
 
+/*
 cloud.browser('ipad', '5.1', 'Mac 10.8');
 cloud.browser('ipad', '6', 'Mac 10.8');
 
@@ -97,6 +101,9 @@ client.on('url', function (url) {
   cloud.start(function () {
     //grid.showFailures();
     setTimeout(function () {
+
+      cloud.stop_browser();
+
       ctx.showCursor();
       http.close();
       replace({

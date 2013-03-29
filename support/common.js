@@ -90,6 +90,7 @@ global.start_http = function(grid, engines, cloud){
 
       // Give it to the appropriate socket
       engines[index].handleRequest(req, res);
+
     } else if (req.url.indexOf('fullTitle') > -1) {
 
     // If the request is a test response
@@ -106,10 +107,10 @@ global.start_http = function(grid, engines, cloud){
       var name = family[0];
       var version = family[1].split('.')[0];
 
-      //console.log("==== DEBUG ====");
-      //console.log(name);
-      //console.log(family);
-      //console.log(version);
+      console.log("==== DEBUG ====");
+      console.log(name);
+      console.log(family);
+      console.log(version);
 
       if (grid != null) {
         grid.markErrored(name, version, agent.os.toString(), cloud);
