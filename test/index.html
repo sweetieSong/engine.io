@@ -58,11 +58,15 @@
 
     onload = function(){
 
+      console.log("logger up");
       var runner = mocha.run();
        
       // Mocha-cloud runner
       var failed = [];
       runner.on('fail', function(test, err){
+
+        console.log("failed");
+
         var fail = {
           title: test.title,
           fullTitle: test.fullTitle(),
@@ -77,7 +81,7 @@
                   "&stack=" + encodeURIComponent(fail.error.stack);
         failed.push(fail);
         
-        $("body").append("<img src=\"" + url + "\" />");
+        $("body").append("<img src=\"" + url + "\" alt=\"failed\" />");
       });
 
       // when test ends, set global mochaResults

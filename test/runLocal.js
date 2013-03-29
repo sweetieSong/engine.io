@@ -19,7 +19,7 @@ files.forEach(function (file) {
 global.url = 'http://localhost:8080'
 // Start the http and engine server
 var engines = servers();
-var http = start_http(null, engines);
+var http = start_http(null, engines, undefined);
 
 mocha.run(function (failures) {
   process.exit(failures);

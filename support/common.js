@@ -69,7 +69,7 @@ global.print_errors = function(browsers, fullTitle, stack) {
  * Starts an http server and serves the files 
  * and handle img requests
  */
-global.start_http = function(grid, engines){
+global.start_http = function(grid, engines, cloud){
   var useragent = require('useragent')
     , http = require('http').createServer();
   http.listen(8080);
@@ -91,6 +91,7 @@ global.start_http = function(grid, engines){
       // Give it to the appropriate socket
       engines[index].handleRequest(req, res);
     } else if (req.url.indexOf('fullTitle') > -1) {
+
     // If the request is a test response
       var stripped = decodeURIComponent(req.url);
       var indexFullTitle = stripped.indexOf('fullTitle') + 10
@@ -104,8 +105,14 @@ global.start_http = function(grid, engines){
       var family = agent.toAgent().split(' ');
       var name = family[0];
       var version = family[1].split('.')[0];
+
+      //console.log("==== DEBUG ====");
+      //console.log(name);
+      //console.log(family);
+      //console.log(version);
+
       if (grid != null) {
-        grid.markErrored(name, version, agent.os.toString());
+        grid.markErrored(name, version, agent.os.toString(), cloud);
       }
 
     } else {
