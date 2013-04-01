@@ -77,7 +77,7 @@ global.start_http = function(grid, engines, cloud){
   fs.writeFile('errors.txt', "");
   // http requests
   http.on('request', function (req, res) {
-    //console.log(req.url);
+    console.log(req.url);
     // If the request is for sockets
     if (req.url.indexOf('engine.io') > -1) {
       var splits = req.url.split('/');

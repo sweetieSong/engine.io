@@ -25,8 +25,8 @@ cloud.browser('firefox', '3.5', 'Windows 2012');
 cloud.browser('firefox', '18', 'Windows 2012')
 */
 
-cloud.browser('chrome', '', 'Windows 2008');
 cloud.browser('safari', '5', 'Windows 2008');
+cloud.browser('chrome', '', 'Windows 2008');
 
 /*
 cloud.browser('ipad', '5.1', 'Mac 10.8');
@@ -59,7 +59,7 @@ if (files.length == 0) {
 
 var fileScripts = "";
 files.forEach(function(file) {
-  fileScripts = "<script src=\"cloud/" + file + "\"></script>"
+  fileScripts += "<script src=\"cloud/" + file + "\"></script>"
 });
 replace({
   regex: 'SCRIPTS_HERE',
@@ -100,6 +100,7 @@ client.on('url', function (url) {
 
   cloud.start(function () {
     //grid.showFailures();
+
     setTimeout(function () {
 
       cloud.stop_browser();

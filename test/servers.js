@@ -12,12 +12,13 @@ module.exports = function () {
   engine.on('connection', function (conn) {
     conn.send('apples');
   });
-  engines[idx++] = engine;
+  engines.push(engine);
 
   engine = new eio.Server();
   engine.on('connection', function (conn) {
     conn.close();
   });
-  engines[idx++] = engine;
+  engines.push(engine);
+  
   return engines;
 };
