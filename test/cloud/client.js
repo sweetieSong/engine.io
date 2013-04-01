@@ -21,10 +21,13 @@ describe('server', function () {
     it('check that server close is handled', function(done){
       var socket = new eioc.Socket({path: '/engine.io/1', port: global.port});
 
-      socket.on('close', function(reason){
-        expect(reason).to.be('transport close');
-        done();
+      socket.on('open', function(){
+        socket.on('close', function(reason){
+          expect(reason).to.be('transport close');
+          done();
+        })
       })
+
     })
   });
 

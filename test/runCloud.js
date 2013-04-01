@@ -27,6 +27,7 @@ cloud.browser('firefox', '18', 'Windows 2012')
 
 cloud.browser('safari', '5', 'Windows 2008');
 cloud.browser('chrome', '', 'Windows 2008');
+cloud.browser('firefox', '19', 'Windows 2008')
 
 /*
 cloud.browser('ipad', '5.1', 'Mac 10.8');

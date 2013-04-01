@@ -11,6 +11,7 @@ module.exports = function () {
   var engine = new eio.Server();
   engine.on('connection', function (conn) {
     conn.send('apples');
+    conn.close();
   });
   engines.push(engine);
 
@@ -19,6 +20,6 @@ module.exports = function () {
     conn.close();
   });
   engines.push(engine);
-  
+
   return engines;
 };
