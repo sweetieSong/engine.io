@@ -9,7 +9,7 @@ var Canvas = require('term-canvas')
   , servers = require('servers.js');
 
 // create a cloud instance with browsers
-var cloud = new Cloud("QIMING FANG", global.username, global.userkey);
+var cloud = new Cloud("mocha-cloud", global.username, global.userkey);
 
 //cloud.browser('opera', '11', 'Windows 2003');
 //cloud.browser('opera', '12', 'Windows 2008');

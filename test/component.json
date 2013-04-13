@@ -1,7 +1,7 @@
 {
-	"name" : "eio-test",
-  "local": [
-    "LearnBoost/engine.io-client", 
-    "visionmedia/mocha"
-  ]
+  "name": "eio-test",
+  "dependencies": {
+    "LearnBoost/engine.io-client": "*",
+    "visionmedia/mocha": "*"
+  }
 }

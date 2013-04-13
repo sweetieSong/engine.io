@@ -11,16 +11,6 @@ test:
 		--globals ___eio,document \
 		$(TESTS)
 
-test2:
-	@./node_modules/.bin/mocha \
-		--require test/common \
-		--reporter $(REPORTER) \
-		--slow 500ms \
-		--bail \
-		test/cloud.js ${tid} ${url}
-	read -p "All tests are done, press [enter] to kill all node instances"
-	killall -9 node
-		
 test-cloud:
 	@NODE_PATH=`pwd`/support:`pwd`/test \
 	node \

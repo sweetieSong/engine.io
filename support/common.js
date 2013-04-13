@@ -28,8 +28,13 @@ global.expect = require('expect.js');
  */
 global.fs = require('fs');
 
+/*
+ *
+ */
+require('s').extend();
+
 /**
- * Listen shortcut that fires a callback on an epheemal port.
+ * Listen shortcut that fires a callback on an ephemeral port.
  */
 
 global.listen = function (opts, fn) {
