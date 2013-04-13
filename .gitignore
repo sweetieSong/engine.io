@@ -4,3 +4,6 @@ coverage.html
 lib-cov/
 errors.txt
 *.swp
+test/components/*
+test/build/*
+test/eio-test.js
